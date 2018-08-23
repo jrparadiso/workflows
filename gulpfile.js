@@ -5,7 +5,9 @@ var gulp = require("gulp"),
   browserify = require("gulp-browserify"),
   connect = require("gulp-connect"),
   concat = require("gulp-concat"),
-  minifycss = require("gulp-minify-css");
+  minifycss = require("gulp-minify-css"),
+  gulpif = require("gulp-if"),
+  uglify = require("gulp-uglify");
 
 var env,
   coffeeSources,
@@ -63,6 +65,7 @@ gulp.task("compass", function() {
         style: sassStyle
       }).on("error", gutil.log)
     )
+    .pipe(gulpif(env === "production", minifycss()))
     .pipe(gulp.dest(outputDir + "css"))
     .pipe(connect.reload());
 });
